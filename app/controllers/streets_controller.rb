@@ -1,15 +1,11 @@
 class StreetsController < ApplicationController
   def search
     @query = params[:q]
-    @streets = if @query
-      Street.advanced_search(display_name: "#{ @query }:*")
+    @streets = if @query && @query.present?
+      Street.advanced_search(display_name: "#{ @query }:*").limit(8)
     else
       Street.none
     end
-  end
-
-  def index
-    @streets = Street.order('postcode asc, name asc')
   end
 
   def show

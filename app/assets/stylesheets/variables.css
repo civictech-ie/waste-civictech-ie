@@ -1,0 +1,12 @@
+:root {
+  --white: #fafafa;
+  --black: #000000;
+  --grey: #666;
+  --faint: #eee;
+  --red: #fd2200;
+  --yellow: #fff500;
+  --sans: "America";
+  --mono: "America Mono";
+  --unit: calc(3.2rem / 2);
+  --gutter: 3.2rem;
+}
