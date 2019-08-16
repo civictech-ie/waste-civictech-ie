@@ -3,7 +3,7 @@ class StreetsController < ApplicationController
   end
 
   def index
-    raise 'todo'
+    @streets = Street.order('postcode asc, name asc')
   end
 
   def show
