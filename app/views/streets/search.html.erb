@@ -1,6 +1,6 @@
 <%= form_with url: [:search, :streets], method: :get, class: 'search-form', data: {remote: false} do |f| %>
-  <%= f.label :q, raw('Start typing the name of the street&hellip;') %>
-  <%= f.text_field :q, value: @query, placeholder: raw('Start typing the name of the street&hellip;') %>
+  <%= f.label :q, raw('Type the name of your street and press enter') %>
+  <%= f.text_field :q, value: @query, placeholder: raw('Type the name of your street and press enter') %>
   <%= f.submit 'Search' %>
 <%- end %>
 
