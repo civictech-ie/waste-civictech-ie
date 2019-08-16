@@ -6,7 +6,6 @@ ruby '2.6.3'
 gem 'rails', github: "rails/rails", branch: "6-0-stable"
 gem 'pg'
 gem 'puma', '~> 3.11'
-gem 'sass-rails', '~> 5'
 gem 'webpacker', github: "rails/webpacker"
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
