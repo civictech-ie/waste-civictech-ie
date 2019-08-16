@@ -52,6 +52,7 @@ body {
   background-position: 1.25rem center;
   background-repeat: no-repeat;
   background-size: 1.5rem;
+  border: 0;
   width: 100%;
   padding: 1rem 1rem 1rem 3.5rem;
 }
@@ -67,6 +68,8 @@ body {
   margin-bottom: 1rem;
   display: block;
   text-decoration: none;
+  opacity: 0.675;
+  transition: 0.25s ease opacity;
 
   h3, p {
     margin: 0;
@@ -78,5 +81,9 @@ body {
 
   p {
     color: var(--grey);
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }
