@@ -7,6 +7,6 @@ class StreetsController < ApplicationController
   end
 
   def show
-    raise 'todo'
+    @street = Street.find_by(slug: params[:id])
   end
 end
