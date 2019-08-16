@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: yourwaste-ie_development
+test:
+  <<: *default
+  database: yourwaste-ie_test
+#
+production:
+  <<: *default
+  database: yourwaste-ie_production
+  username: yourwaste-ie
+  password: <%= ENV['PG_DATABASE_PASSWORD'] %>
