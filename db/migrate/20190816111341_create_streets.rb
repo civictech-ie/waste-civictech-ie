@@ -4,7 +4,7 @@ class CreateStreets < ActiveRecord::Migration[6.0]
       t.text :name
       t.text :slug
       t.text :postcode
-      t.boolean :bag_street
+      t.boolean :bag_street, default: false
 
       t.timestamps
     end

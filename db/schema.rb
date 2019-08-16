@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_08_16_111341) do
     t.text "name"
     t.text "slug"
     t.text "postcode"
-    t.boolean "bag_street"
+    t.boolean "bag_street", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["bag_street"], name: "index_streets_on_bag_street"
