@@ -1,5 +1,11 @@
 class StreetsController < ApplicationController
   def search
+    @query = params[:q]
+    @streets = if @query
+      Street.basic_search(display_name: @query)
+    else
+      Street.none
+    end
   end
 
   def index

@@ -1,1 +1,16 @@
-search!
+<%= form_with url: [:search, :streets], method: :get, data: {remote: false} do |f| %>
+  <%= f.text_field :q, value: @query, placeholder: 'Enter the name of your street' %>
+  <%= f.submit %>
+<%- end %>
+
+<table>
+  <tbody>
+    <%- @streets.each do |street| %>
+      <tr>
+        <td><%= link_to street.name, street -%></td>
+        <td><%= street.postcode -%></td>
+        <td><%= street.bag_street? ? 'yes' : 'no'  -%></td>
+      </tr>
+    <%- end %>
+  </tbody>
+</table>
