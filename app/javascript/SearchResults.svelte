@@ -76,7 +76,7 @@
     </div>
   {:else}
     <div class="empty-state">
-      <p>No query</p>
+      <p>· · ·</p>
     </div>
   {/if}
 {/if}
