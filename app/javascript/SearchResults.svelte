@@ -41,6 +41,21 @@
 </script>
 
 <style>
+  .empty-state {
+    width: 100%;
+    min-height: 12rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .empty-state p {
+    display: flex;
+    background: rgba(0,0,0,0.125);
+    padding: 0.5rem 2rem;
+    border-radius: 2rem;
+  }
 </style>
 
 {#if anyResults}
@@ -56,8 +71,12 @@
   </ul>
 {:else}
   {#if query}
-    <p>No results</p>
+    <div class="empty-state">
+      <p>No results</p>
+    </div>
   {:else}
-    <p>No query</p>
+    <div class="empty-state">
+      <p>No query</p>
+    </div>
   {/if}
 {/if}

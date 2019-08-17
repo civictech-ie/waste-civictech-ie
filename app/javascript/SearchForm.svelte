@@ -2,12 +2,16 @@
   import SearchResults from './SearchResults.svelte';
 
   let query = "";
+
+  function goToStreet() {
+    console.log('Go!');
+  }
 </script>
 
 <style>
 </style>
 
-<form class="search-form" on:submit|preventDefault>
+<form class="search-form" on:submit|preventDefault={goToStreet}>
   <input
     type="text"
     name="query"
