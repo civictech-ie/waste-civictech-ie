@@ -5,6 +5,7 @@
   let selectionIndex = 0;
 
   $: anyResults = !!streets.length;
+  $: anyQuery = ((query.length) && (query.length > 2))
   $: updateSelection(selectionIndex, streets)
   $: updateStreets(query)
 
@@ -33,12 +34,14 @@
   }
   
   function updateStreets(q) {
-    fetchSearchResults(q)
-      .then(data => {
-        streets = data;
-        selectionIndex = 0;
-      })
-      .catch(err => console.log('Ooops, error', err.message));
+    if (anyQuery) {
+      fetchSearchResults(q)
+        .then(data => {
+          streets = data;
+          selectionIndex = 0;
+        })
+        .catch(err => console.log('Ooops, error', err.message));
+    }
   }
 
   async function fetchSearchResults(q) {
@@ -91,7 +94,7 @@
     {/each}
   </ul>
 {:else}
-  {#if query}
+  {#if anyQuery}
     <div class="empty-state">
       <p>No results</p>
     </div>
