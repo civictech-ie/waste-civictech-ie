@@ -6,6 +6,11 @@ class StreetsController < ApplicationController
     else
       Street.none
     end
+
+    respond_to do |f|
+      f.html { render action: 'search' }
+      f.json { render json: @streets }
+    end
   end
 
   def show
