@@ -5,21 +5,40 @@
   let selectionIndex = 0;
 
   $: anyResults = !!streets.length;
-
   $: updateSelection(selectionIndex, streets)
-
   $: updateStreets(query)
 
-  function updateSelection(i, array) {
+	function keyUpHandler(e) {
+		if ((e.keyCode == 39) || (e.keyCode == 40)) {
+      // right or down
+			selectionIndex += 1;
+    } else if ((e.keyCode == 37) || (e.keyCode == 38)) { 
+      //left or up
+      if (selectionIndex)
+			selectionIndex -= 1;
+		} else if (e.keyCode == 13) { 
+      const street = streets[selectionIndex];
+      window.location.href = `/streets/${street.slug}`;
+		}
+	}
+
+  function updateSelection(i,s) {
+    if (anyResults) {
+      streets.forEach(function(street) {
+        street.selected = false;
+      });
+
+      streets[i].selected = true;
+    }
   }
   
   function updateStreets(q) {
     fetchSearchResults(q)
-    .then(data => {
-      streets = data;
-      selectionIndex = 0;
-    })
-    .catch(err => console.log('Ooops, error', err.message));
+      .then(data => {
+        streets = data;
+        selectionIndex = 0;
+      })
+      .catch(err => console.log('Ooops, error', err.message));
   }
 
   async function fetchSearchResults(q) {
@@ -58,11 +77,13 @@
   }
 </style>
 
+<svelte:window on:keyup={keyUpHandler} />
+
 {#if anyResults}
   <ul>
-    {#each streets as { name, postcode, slug }, i}
+    {#each streets as { selected, name, postcode, slug }, i}
       <li>
-        <a href="streets/{slug}" class="search-result">
+        <a href="/streets/{slug}" class="search-result" class:selected={selected}>
           <h3>{name}</h3>
           <p>Dublin {postcode}</p>
         </a>

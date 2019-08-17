@@ -80,6 +80,10 @@ body {
     color: var(--grey);
   }
 
+  &.selected {
+    background: var(--yellow);
+  }
+
   &:hover {
     opacity: 1;
   }
