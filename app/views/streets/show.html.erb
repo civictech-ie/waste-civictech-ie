@@ -1,1 +1,9 @@
-<%= @street.inspect %>
+<div class="street-show">
+  <header>
+    <h1><%= @street.name -%></h1>
+    <p>Dublin <%= @street.postcode -%></p>
+  </header>
+  <div class="pane">
+    This is a <%= @street.bag_street ? 'bag' : 'bin' %> street.
+  </div>
+</div>

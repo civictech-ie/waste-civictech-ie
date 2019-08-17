@@ -84,3 +84,32 @@ body {
     opacity: 1;
   }
 }
+
+.street-show {
+  background-color: var(--white);
+  border-radius: 0.325em;
+  margin-bottom: 1rem;
+  display: block;
+
+  header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--faint);
+
+    h1, p {
+      margin: 0;
+    }
+  
+    h1 {
+      color: var(--black);
+      font-size: 2.1rem;
+    }
+  
+    p {
+      color: var(--grey);
+    }
+  }
+
+  .pane {
+    padding: 1rem;
+  }
+}
