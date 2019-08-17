@@ -1,7 +1,7 @@
 :root {
   --white: #fafafa;
   --black: #000000;
-  --grey: #666;
+  --grey: rgba(0,0,0,0.5);
   --faint: #eee;
   --red: #fd2200;
   --yellow: #fff500;
