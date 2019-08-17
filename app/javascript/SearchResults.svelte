@@ -12,11 +12,14 @@
 	function keyUpHandler(e) {
 		if ((e.keyCode == 39) || (e.keyCode == 40)) {
       // right or down
-			selectionIndex += 1;
+      if ((selectionIndex + 1)< streets.length) {
+        selectionIndex += 1;
+      }
     } else if ((e.keyCode == 37) || (e.keyCode == 38)) { 
       //left or up
-      if (selectionIndex)
-			selectionIndex -= 1;
+      if (selectionIndex > 0) {
+        selectionIndex -= 1;
+      }
 		} else if (e.keyCode == 13) { 
       const street = streets[selectionIndex];
       window.location.href = `/streets/${street.slug}`;
