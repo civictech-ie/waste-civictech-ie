@@ -1,7 +1,15 @@
 <script>
   export let query;
 
-  $: searchResults = fetchSearchResults(query);
+  let streets = [];
+
+  $: anyResults = !!streets.length;
+
+  $: fetchSearchResults(query)
+    .then(data => {
+      streets = data;
+    })
+    .catch(err => console.log('Ooops, error', err.message));
 
   async function fetchSearchResults(q) {
 		const res = await fetch(`streets/search?q=${q}`, {
@@ -9,23 +17,22 @@
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
-    });
-		const json = await res.json();
+    }
+    );
 
-		if (res.ok) {
-			return json;
-		} else {
-			throw new Error('Error!');
-		}
+    if (!res.ok) {
+      throw new Error(res.status);
+    }
+
+    const data = await res.json();
+    return data;
   }
 </script>
 
 <style>
 </style>
 
-{#await searchResults}
-	<p>...waiting</p>
-{:then streets}
+{#if anyResults}
   <ul>
     {#each streets as { name, postcode, slug }, i}
       <li>
@@ -36,6 +43,6 @@
       </li>
     {/each}
   </ul>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await}
+{:else}
+  <p>No results</p>
+{/if}
