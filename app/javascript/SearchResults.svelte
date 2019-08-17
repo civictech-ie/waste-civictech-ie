@@ -5,7 +5,7 @@
   let selectionIndex = 0;
 
   $: anyResults = !!streets.length;
-  $: anyQuery = ((query.length) && (query.length > 2))
+  $: anyQuery = ((query.length) && (query.length > 1))
   $: updateSelection(selectionIndex, streets)
   $: updateStreets(query)
 
