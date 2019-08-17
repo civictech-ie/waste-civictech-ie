@@ -2,14 +2,25 @@
   export let query;
 
   let streets = [];
+  let selectionIndex = 0;
 
   $: anyResults = !!streets.length;
 
-  $: fetchSearchResults(query)
+  $: updateSelection(selectionIndex, streets)
+
+  $: updateStreets(query)
+
+  function updateSelection(i, array) {
+  }
+  
+  function updateStreets(q) {
+    fetchSearchResults(q)
     .then(data => {
       streets = data;
+      selectionIndex = 0;
     })
     .catch(err => console.log('Ooops, error', err.message));
+  }
 
   async function fetchSearchResults(q) {
 		const res = await fetch(`streets/search?q=${q}`, {

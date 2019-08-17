@@ -1,12 +1,1 @@
 <div id="search-form"></div>
-
-<ol class="search-results">
-  <%- @streets.each do |street| %>
-    <li>
-      <%= link_to street, class: 'search-result' do -%>
-        <h3><%= street.name -%></h3>
-        <p>Dublin <%= street.postcode -%></p>
-      <%- end -%>
-    </li>
-  <%- end %>
-</ol>
