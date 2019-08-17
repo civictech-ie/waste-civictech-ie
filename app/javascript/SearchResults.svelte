@@ -55,5 +55,9 @@
     {/each}
   </ul>
 {:else}
-  <p>No results</p>
+  {#if query}
+    <p>No results</p>
+  {:else}
+    <p>No query</p>
+  {/if}
 {/if}
