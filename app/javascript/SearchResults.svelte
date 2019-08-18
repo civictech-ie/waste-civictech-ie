@@ -44,6 +44,8 @@
           selectionIndex = 0;
         })
         .catch(err => console.log('Ooops, error', err.message));
+    } else {
+      anyResults = false;
     }
   }
 
