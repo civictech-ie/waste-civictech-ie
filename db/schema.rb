@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_16_174405) do
+ActiveRecord::Schema.define(version: 2019_08_18_182200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 2019_08_16_174405) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "display_name"
+    t.text "collection_days", default: [], array: true
+    t.integer "collection_start"
+    t.integer "collection_duration"
+    t.text "presentation_days", default: [], array: true
+    t.integer "presentation_start"
+    t.integer "presentation_duration"
     t.index "to_tsvector('english'::regconfig, display_name)", name: "streets_display_name", using: :gin
     t.index ["bag_street"], name: "index_streets_on_bag_street"
     t.index ["name"], name: "index_streets_on_name"

@@ -1,3 +1,5 @@
+<div id="search-form"></div>
+
 <div class="street-show">
   <header>
     <h1><%= @street.name -%></h1>
@@ -5,5 +7,19 @@
   </header>
   <div class="pane">
     This is a <%= @street.bag_street ? 'bag' : 'bin' %> street.
+  </div>
+  <div class="pane">
+    <%- if @street.presentation_days.size == 7 %>
+      Put your <%= @street.bag_street ? 'bag' : 'bin' %> any day of the week.
+    <%- else -%>
+      Put your <%= @street.bag_street ? 'bag' : 'bin' %> out on <%= @street.presentation_days.map(&:capitalize).to_sentence %>.
+    <%- end %>
+  </div>
+  <div class="pane">
+    <%- if @street.collection_days.size == 7 %>
+      <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected every day of the week.
+    <%- else -%>
+      <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected on <%= @street.presentation_days.map(&:capitalize).to_sentence %>.
+    <%- end %>
   </div>
 </div>

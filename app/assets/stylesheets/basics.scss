@@ -94,26 +94,32 @@ body {
   border-radius: 0.325em;
   margin-bottom: 1rem;
   display: block;
+  overflow: hidden;
 
   header {
     padding: 1rem;
-    border-bottom: 1px solid var(--faint);
+    background-color: var(--black);
 
     h1, p {
       margin: 0;
     }
   
     h1 {
-      color: var(--black);
+      color: var(--white);
       font-size: 2.1rem;
     }
   
     p {
-      color: var(--grey);
+      color: var(--white);
     }
   }
 
   .pane {
     padding: 1rem;
+    border-bottom: 1px solid var(--faint);
+
+    &:last-child {
+      border-bottom: 0;
+    }
   }
 }
