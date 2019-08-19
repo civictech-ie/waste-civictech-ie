@@ -16,10 +16,11 @@ brew install redis
 Now clone the repo, install the dependencies, and set up the db.
 
 ```bash
-git clone git@github.com:XenonIO/metricfire-www
+git clone https://github.com/civictech-ie/yourwaste-ie
 bundle install
 bundle exec rake db:create
 bundle exec rake db:migrate
+bundle exec rake db:seed
 ```
 
 Get things started:
