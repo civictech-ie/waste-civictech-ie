@@ -1,4 +1,5 @@
 <script>
+  export let focused;
   export let query;
 
   let streets = [];
@@ -66,6 +67,16 @@
 </script>
 
 <style>
+  .search-results {
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 0;
+    right: 0;
+    min-height: calc(100vh - (8.6rem * 2) - (100% + 1rem));
+    z-index: 9999;
+    background-color: var(--faint);
+  }
+
   .empty-state {
     width: 100%;
     min-height: 12rem;
@@ -85,25 +96,25 @@
 
 <svelte:window on:keyup={keyUpHandler} />
 
-{#if anyResults}
-  <ul>
-    {#each streets as { selected, name, postcode, slug }, i}
-      <li>
-        <a href="/streets/{slug}" class="search-result" class:selected={selected}>
-          <h3>{name}</h3>
-          <p>Dublin {postcode}</p>
-        </a>
-      </li>
-    {/each}
-  </ul>
-{:else}
-  {#if anyQuery}
-    <div class="empty-state">
-      <p>No results</p>
-    </div>
+{#if focused}
+  {#if anyResults}
+    <ul class="search-results">
+      {#each streets as { selected, name, postcode, slug }, i}
+        <li>
+          <a href="/streets/{slug}" class="search-result" class:selected={selected}>
+            <h3>{name}</h3>
+            <p>Dublin {postcode}</p>
+          </a>
+        </li>
+      {/each}
+    </ul>
   {:else}
     <div class="empty-state">
-      <p>· · ·</p>
+      {#if anyQuery}
+        <p>No results</p>
+      {:else}
+        <p>· · ·</p>
+      {/if}
     </div>
   {/if}
 {/if}
