@@ -14,4 +14,8 @@
  *= require 'variables'
  *= require 'reset'
  *= require 'basics'
+ *= require 'layout'
+ *= require 'search-form'
+ *= require 'search-results'
+ *= require 'search-show'
  */

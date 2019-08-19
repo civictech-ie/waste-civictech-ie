@@ -9,15 +9,21 @@
     <%= javascript_pack_tag 'application' %>
     <%= javascript_pack_tag 'yourwaste' %>
 
-    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,500,700&display=swap" rel="stylesheet">
     <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no' />
   </head>
 
   <body>
-    <div class="modal-frame">
-      <div class="modal">
-        <%= yield %>
+    <header class="primary-header">
+      <%= link_to "YourWaste·ie", :root, class: 'logo' %>
+    </header>
+    <main class="primary-main">
+      <div class="wrapper"><%= yield %></div>
+    </main>
+    <footer class="primary-footer">
+      <div class="wrapper">
+        Have a correction or feedback? <%= link_to "Send us a note", "mailto:beta@dublincity.ie" -%>.
       </div>
-    </div>
+    </footer>
   </body>
 </html>

@@ -1,7 +1,7 @@
 <script>
   import SearchResults from './SearchResults.svelte';
 
-  let query = "";
+  export let query;
 </script>
 
 <style>

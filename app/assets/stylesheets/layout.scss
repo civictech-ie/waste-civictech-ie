@@ -1,0 +1,49 @@
+.wrapper {
+  max-width: 56rem;
+  width: calc(100% - (var(--gutter) * 2));
+  margin: 0 auto;
+  position: relative;
+}
+
+.primary-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: var(--gutter) 0;
+  text-align: center;
+
+  .logo {
+    font-weight: 700;
+    color: var(--black);
+  }
+}
+
+.primary-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 0;
+  text-align: center;
+
+  .wrapper {
+    padding-top: 1rem;
+    border-top: 1px solid var(--faint-dark);
+  }
+
+  a, a:link, a:visited {
+    font-weight: 500;
+  }
+}
+
+.primary-main {
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 8.6rem;
+  right: 0;
+  bottom: 8.6rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

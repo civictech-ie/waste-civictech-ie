@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const target = document.getElementById('search-form');
 
   const searchForm = new SearchForm({
-    target: target
+    target: target,
+    props: {
+      query: target.getAttribute('data-query')
+    }
   });
 
   window.searchForm = searchForm;

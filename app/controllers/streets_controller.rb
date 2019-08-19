@@ -15,5 +15,6 @@ class StreetsController < ApplicationController
 
   def show
     @street = Street.find_by(slug: params[:id])
+    @query = @street.name
   end
 end
