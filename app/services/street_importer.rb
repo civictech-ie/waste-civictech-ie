@@ -1,12 +1,27 @@
 class StreetImporter
   def self.import_csv!(csv)
     csv.each do |row|
-      import_row! row
+      import_row! row.to_h
     end
   end
 
-  def self.import_row!(row)
-    Street.create!(params_from_hash(row.to_h))
+  def self.import_google_sheets!(sheet_values)
+    keys = sheet_values[0]
+    sheet_values.shift
+
+    sheet_values.each do |row|
+      rowHash = {}
+
+      keys.each_with_index do |key, index|
+        rowHash[key] = row[index]
+      end
+
+      import_row! rowHash
+    end
+  end
+
+  def self.import_row!(row_hash)
+    Street.create!(params_from_hash(row_hash))
   end
 
   def self.params_from_hash(h)
@@ -34,7 +49,7 @@ class StreetImporter
         split(',').
         map(&:strip).
         map(&:downcase)
-    else 
+    else
       [days_str.downcase]
     end
   end
