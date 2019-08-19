@@ -20,7 +20,6 @@
       placeholder="Start typing the name of your street&hellip;"
       bind:value={query}
       on:focus="{e => focused = true}"
-      on:blur="{e => focused = false}"
       />
   </form>
 
