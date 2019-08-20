@@ -103,7 +103,7 @@
 
 <svelte:window on:keyup={keyUpHandler} />
 
-{#if focused}
+{#if focused && hasQueryChanged()}
   {#if anyResults}
     <ul class="search-results">
       {#each streets as { selected, name, postcode, slug }, i}
