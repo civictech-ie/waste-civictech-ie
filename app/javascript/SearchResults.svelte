@@ -2,6 +2,7 @@
   export let focused;
   export let query;
 
+  const prepopulatedQuery = query;
   let streets = [];
   let selectionIndex = 0;
 
@@ -10,18 +11,22 @@
   $: updateSelection(selectionIndex, streets)
   $: updateStreets(query)
 
+  function hasQueryChanged() {
+    return query !== prepopulatedQuery;
+  }
+
 	function keyUpHandler(e) {
 		if ((e.keyCode == 39) || (e.keyCode == 40)) {
       // right or down
       if ((selectionIndex + 1)< streets.length) {
         selectionIndex += 1;
       }
-    } else if ((e.keyCode == 37) || (e.keyCode == 38)) { 
+    } else if ((e.keyCode == 37) || (e.keyCode == 38)) {
       //left or up
       if (selectionIndex > 0) {
         selectionIndex -= 1;
       }
-		} else if (e.keyCode == 13) { 
+		} else if (e.keyCode == 13) {
       const street = streets[selectionIndex];
       window.location.href = `/streets/${street.slug}`;
 		}
@@ -36,9 +41,9 @@
       streets[i].selected = true;
     }
   }
-  
+
   function updateStreets(q) {
-    if (anyQuery) {
+    if (anyQuery && hasQueryChanged()) {
       fetchSearchResults(q)
         .then(data => {
           streets = data;
