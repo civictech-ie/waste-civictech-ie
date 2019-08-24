@@ -11,16 +11,16 @@
     </div>
     <div class="pane">
       <%- if @street.presentation_days.size == 7 %>
-        Put your <%= @street.bag_street ? 'bag' : 'bin' %> out any day of the week.
+        Put your <%= @street.bag_street ? 'bag' : 'bin' %> out any day of the week from <%= format_time_of_day @street.presentation_start %> to <%= format_time_of_day @street.presentation_end %>.
       <%- else -%>
-        Put your <%= @street.bag_street ? 'bag' : 'bin' %> out on <%= @street.presentation_days.map(&:capitalize).to_sentence %>.
+        Put your <%= @street.bag_street ? 'bag' : 'bin' %> out on <%= @street.presentation_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day @street.presentation_start %> to <%= format_time_of_day @street.presentation_end %>.
       <%- end %>
     </div>
     <div class="pane">
       <%- if @street.collection_days.size == 7 %>
-        <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected every day of the week.
+        <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected every day of the week from <%= format_time_of_day @street.collection_start %> to <%= format_time_of_day @street.collection_end %>.
       <%- else -%>
-        <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected on <%= @street.collection_days.map(&:capitalize).to_sentence %>.
+        <%= @street.bag_street ? 'Bags' : 'Bins' %> will be collected on <%= @street.collection_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day @street.collection_start %> to <%= format_time_of_day @street.collection_end %>.
       <%- end %>
     </div>
   </div>

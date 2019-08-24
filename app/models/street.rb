@@ -9,6 +9,14 @@ class Street < ApplicationRecord
     [:display_name]
   end
 
+  def collection_end
+    self.collection_start + self.collection_duration
+  end
+
+  def presentation_end
+    self.presentation_start + self.presentation_duration
+  end
+
   private
 
   def set_slug
