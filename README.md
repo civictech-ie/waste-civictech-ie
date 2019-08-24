@@ -43,6 +43,14 @@ guard
 
 And then head to [http://localhost:5000](http://localhost:5000).
 
+## Tests
+
+Run the tests before committing code (and write a few):
+
+```bash
+rake
+```
+
 ## Credentials
 
 You'll need to set a Google API key in a `credentials.yml` file or get the `master.key` file from another contributor (email brian@civictech.ie and I'll respond promptly!).

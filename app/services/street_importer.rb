@@ -25,16 +25,19 @@ class StreetImporter
   end
 
   def self.params_from_hash(h)
+    collection_days = parse_days(h['CollectionDay'])
+    presentation_start_days = parse_days(h['PresentationDayStart'])
+    presentation_end_days = parse_days(h['PresentationDayEnd'])
     {
       name: h['StreetName'],
       postcode: h['Postcode'],
       bag_street: parse_boolean(h['BagStreet']),
-      collection_days: parse_days(h['CollectionDay']),
+      collection_days: collection_days,
       collection_start: parse_time_of_day(h['CollectionTimeStart']),
-      collection_duration: parse_duration(),
-      presentation_days: parse_days(h['PresentationDayStart']),
+      collection_duration: calculate_duration(h['CollectionTimeStart'], collection_days, h['CollectionTimeEnd'], nil),
+      presentation_days: presentation_start_days,
       presentation_start: parse_time_of_day(h['PresentationTimeStart']),
-      presentation_duration: parse_duration()
+      presentation_duration: calculate_duration(h['PresentationTimeStart'], presentation_start_days, h['PresentationTimeEnd'], presentation_end_days)
     }
   end
 
@@ -57,12 +60,35 @@ class StreetImporter
   def self.parse_time_of_day(time_str) # needs to be in HH:MM format
     return nil unless time_str.present?
     hours, minutes = time_str.scan(/(\d+):(\d+)/).first.map(&:to_i)
+
     raise "Malformed time value" unless hours and minutes
 
-    ((hours * 60 * 60) + (minutes * 60))
+    ((hours * 60 * 60) + (minutes * 60)) # seconds since mdinight
   end
 
-  def self.parse_duration
-    (4 * 3600)
+  def self.calculate_duration(start_time, start_days, end_time, end_days) # if either day is nil, it'll be inferred
+    start_ssm = parse_time_of_day(start_time)
+    end_ssm = parse_time_of_day(end_time)
+
+    days = if start_days.present? && end_days.present? && (start_days.size == 1)
+      distance_between_days(start_days.first, end_days.first)
+    else # if end_time is less than or equal to start_time then end_day must be the next day
+      (end_ssm <= start_ssm) ? 1 : 0
+    end
+
+    ((days * 24 * 60 * 60) + (end_ssm - start_ssm)) # duration in seconds
+  end
+
+  private
+
+  def self.distance_between_days(day_1_str, day_2_str) # only works forwards (day 2 always comes after day 1)
+    day_1_int = Date::DAYNAMES.index(day_1_str.capitalize)
+    day_2_int = Date::DAYNAMES.index(day_2_str.capitalize)
+
+    if day_2_int >= day_1_int # they fall within the same week
+      return (day_2_int - day_1_int)
+    else # day_2 falls next week
+      return (day_2_int - (day_1_int - 7))
+    end
   end
 end
