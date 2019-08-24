@@ -43,7 +43,7 @@ guard
 
 And then head to [http://localhost:5000](http://localhost:5000).
 
-## Tests
+## Tests
 
 Run the tests before committing code (and write a few):
 
