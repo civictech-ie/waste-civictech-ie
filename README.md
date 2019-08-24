@@ -29,7 +29,7 @@ Get things started:
 heroku local
 ```
 
-and, optionally:
+and, optionally for live reloading:
 
 ```bash
 guard
