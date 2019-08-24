@@ -1,6 +1,16 @@
+require 'csv'
+
 # takes tabular data and creates a bunch of Street records
 
 class StreetImporter
+  def self.import_csv!(csv_file)
+    sheet_rows = CSV.parse(csv_file, headers: true, encoding: 'ISO-8859-1')
+
+    sheet_rows.each do |sheet_row|
+      import_row!(sheet_row)
+    end
+  end
+
   def self.import_google_sheet!(sheet)
     labels = sheet.values[0]
     sheet_rows = sheet.values[1..-1]
@@ -44,8 +54,12 @@ class StreetImporter
     end
   end
 
-  def self.parse_time_of_day(time_str)
-    (4 * 3600)
+  def self.parse_time_of_day(time_str) # needs to be in HH:MM format
+    return nil unless time_str.present?
+    hours, minutes = time_str.scan(/(\d+):(\d+)/).first.map(&:to_i)
+    raise "Malformed time value" unless hours and minutes
+
+    ((hours * 60 * 60) + (minutes * 60))
   end
 
   def self.parse_duration
