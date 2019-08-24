@@ -1,22 +1,12 @@
+# takes tabular data and creates a bunch of Street records
+
 class StreetImporter
-  def self.import_csv!(csv)
-    csv.each do |row|
-      import_row! row.to_h
-    end
-  end
+  def self.import_google_sheet!(sheet)
+    labels = sheet.values[0]
+    sheet_rows = sheet.values[1..-1]
 
-  def self.import_google_sheets!(sheet_values)
-    keys = sheet_values[0]
-    sheet_values.shift
-
-    sheet_values.each do |row|
-      rowHash = {}
-
-      keys.each_with_index do |key, index|
-        rowHash[key] = row[index]
-      end
-
-      import_row! rowHash
+    sheet_rows.each do |sheet_row|
+      import_row!(labels.zip(sheet_row).to_h)
     end
   end
 

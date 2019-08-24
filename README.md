@@ -23,14 +23,32 @@ bundle exec rake db:migrate
 bundle exec rake db:seed
 ```
 
-Get things started:
+The `.env.sample` file has the environment variables you'll need to get started:
+
+```bash
+cp .env.sample .env
+```
+
+Get the thing running:
 
 ```bash
 heroku local
 ```
 
-and, optionally:
+and, optionally for live reloading:
 
 ```bash
 guard
 ```
+
+And then head to [http://localhost:5000](http://localhost:5000).
+
+## Credentials
+
+You'll need to set a Google API key in a `credentials.yml` file or get the `master.key` file from another contributor (email brian@civictech.ie and I'll respond promptly!).
+
+## Seed data
+
+The app can be seeded from a properly formatted Google Sheets document (assuming you're credentialed per the above section).
+
+Running `rake db:seed` will fetch the data from Google Sheets and insert it into the app's Postgresql database. _Note: this will replace any existing data you have in the local database._
