@@ -7,7 +7,7 @@
       <p>Dublin <%= @street.postcode -%></p>
     </header>
     <div class="pane">
-      This is a <%= @street.bag_street ? 'bag' : 'bin' %> street.
+      This is a <%= @street.bag_street ? 'paid for waste bag' : 'wheelie bin' %> street.
     </div>
     <div class="pane">
       <%- if @street.presentation_days.size == 7 %>
