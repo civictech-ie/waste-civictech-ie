@@ -1,0 +1,2 @@
+class BinBagRetailer < ApplicationRecord
+end
