@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  address: MyString
+  postcode: MyString
+  google_map_url: MyString
+  google_map_has_opening_hours: false
+  providers: MyString
+
+two:
+  name: MyString
+  address: MyString
+  postcode: MyString
+  google_map_url: MyString
+  google_map_has_opening_hours: false
+  providers: MyString
