@@ -1,17 +1,18 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  name: MyString
-  address: MyString
-  postcode: MyString
-  google_map_url: MyString
+  name: Spar
+  address: North King Street
+  postcode: 7
+  google_map_url: nil
   google_map_has_opening_hours: false
-  providers: MyString
+  providers: 
+    - Citywaste
 
 two:
-  name: MyString
-  address: MyString
-  postcode: MyString
-  google_map_url: MyString
-  google_map_has_opening_hours: false
-  providers: MyString
+  name: Centra
+  address: 50 Thomas Street
+  postcode: 8
+  google_map_url: nil
+  google_map_has_opening_hours: true
+  providers:
+    - Greyhound
+    - Keywaste
