@@ -3,7 +3,6 @@
 
 <style>
   div {
-    background: red;
     position: absolute;
     left: 0;
     right: 0;
