@@ -13,13 +13,21 @@ class StreetsController < ApplicationController
     end
   end
 
+  def index
+    @streets = Street.order('name asc')
+
+    respond_to do |f|
+      f.json { render json: @streets.as_json(only: [:name, :slug]) }
+    end
+  end
+
   def show
     @street = Street.find_by(slug: params[:id])
     @query = @street.name
 
     respond_to do |f|
       f.html { render action: 'show' }
-      f.json { render json: @street.as_json(only: [:name, :postcode, :bag_street, :collection_days, :collection_start, :collection_duration, :presentation_days, :presentation_start, :presentation_duration, :updated_at]) }
+      f.json { render json: @street.as_json(only: [:name, :slug, :postcode, :bag_street, :collection_days, :collection_start, :collection_duration, :presentation_days, :presentation_start, :presentation_duration, :updated_at]) }
     end
   end
 end
