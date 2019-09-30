@@ -1,0 +1,18 @@
+one:
+  name: Spar
+  address: North King Street
+  postcode: 7
+  google_map_url: nil
+  google_map_has_opening_hours: false
+  providers: 
+    - Citywaste
+
+two:
+  name: Centra
+  address: 50 Thomas Street
+  postcode: 8
+  google_map_url: nil
+  google_map_has_opening_hours: true
+  providers:
+    - Greyhound
+    - Keywaste

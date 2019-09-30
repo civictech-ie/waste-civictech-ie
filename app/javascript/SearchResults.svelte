@@ -1,4 +1,6 @@
 <script>
+  import ResultsPane from './ResultsPane.svelte';
+
   export let focused;
   export let query;
 
@@ -30,7 +32,7 @@
       const street = streets[selectionIndex];
       window.location.href = `/streets/${street.slug}`;
 		}
-	}
+  }
 
   function updateSelection(i,s) {
     if (anyResults) {
@@ -75,13 +77,6 @@
 
 <style>
   .search-results {
-    position: absolute;
-    top: calc(100% + 1rem);
-    left: 0;
-    right: 0;
-    min-height: calc(100vh - (8.6rem * 2) - (100% + 1rem));
-    z-index: 9999;
-    background-color: var(--faint);
   }
 
   .empty-state {
@@ -104,24 +99,26 @@
 <svelte:window on:keyup={keyUpHandler} />
 
 {#if focused && hasQueryChanged()}
-  {#if anyResults}
-    <ul class="search-results">
-      {#each streets as { selected, name, postcode, slug }, i}
-        <li>
-          <a href="/streets/{slug}" class="search-result" class:selected={selected}>
-            <h3>{name}</h3>
-            <p>Dublin {postcode}</p>
-          </a>
-        </li>
-      {/each}
-    </ul>
-  {:else}
-    <div class="empty-state">
-      {#if anyQuery}
-        <p>No results</p>
-      {:else}
-        <p>· · ·</p>
-      {/if}
-    </div>
-  {/if}
+  <ResultsPane>
+    {#if anyResults}
+      <ul class="search-results">
+        {#each streets as { selected, name, postcode, slug }, i}
+          <li>
+            <a href="/streets/{slug}" class="search-result" class:selected={selected}>
+              <h3>{name}</h3>
+              <p>Dublin {postcode}</p>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {:else}
+      <div class="empty-state">
+        {#if anyQuery}
+          <p>No results</p>
+        {:else}
+          <p>· · ·</p>
+        {/if}
+      </div>
+    {/if}
+  </ResultsPane>
 {/if}

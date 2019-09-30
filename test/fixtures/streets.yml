@@ -1,11 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   name: Lennox Street
+  slug: lennox-street
   postcode: 2
   bag_street: true
 
 two:
   name: Camden Street
+  slug: camden-street
   postcode: 2
   bag_street: false
