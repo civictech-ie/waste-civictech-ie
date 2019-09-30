@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2019_09_30_121305) do
-=======
-ActiveRecord::Schema.define(version: 2019_09_24_230020) do
->>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +26,6 @@ ActiveRecord::Schema.define(version: 2019_09_24_230020) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-<<<<<<< HEAD
   create_table "provider_streets", force: :cascade do |t|
     t.bigint "street_id", null: false
     t.bigint "provider_id", null: false
@@ -54,8 +49,6 @@ ActiveRecord::Schema.define(version: 2019_09_24_230020) do
     t.index ["slug"], name: "index_providers_on_slug", unique: true
   end
 
-=======
->>>>>>> master
   create_table "streets", force: :cascade do |t|
     t.text "name"
     t.text "slug"
