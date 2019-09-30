@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_123302) do
+ActiveRecord::Schema.define(version: 2019_09_30_121305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,21 @@ ActiveRecord::Schema.define(version: 2019_09_29_123302) do
     t.text "providers", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "provider_streets", force: :cascade do |t|
+    t.bigint "street_id", null: false
+    t.bigint "provider_id", null: false
+    t.integer "collection_start"
+    t.integer "collection_duration"
+    t.text "collection_days", default: [], array: true
+    t.integer "presentation_start"
+    t.integer "presentation_duration"
+    t.text "presentation_days", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider_id"], name: "index_provider_streets_on_provider_id"
+    t.index ["street_id"], name: "index_provider_streets_on_street_id"
   end
 
   create_table "providers", force: :cascade do |t|
@@ -55,4 +70,6 @@ ActiveRecord::Schema.define(version: 2019_09_29_123302) do
     t.index ["slug"], name: "index_streets_on_slug", unique: true
   end
 
+  add_foreign_key "provider_streets", "providers"
+  add_foreign_key "provider_streets", "streets"
 end

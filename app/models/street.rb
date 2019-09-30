@@ -1,6 +1,9 @@
 class Street < ApplicationRecord
   before_validation :set_slug, :set_display_name
 
+  has_many :provider_streets
+  has_many :providers, through: :provider_streets
+
   def to_param
     self.slug
   end

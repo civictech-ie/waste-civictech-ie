@@ -23,5 +23,10 @@
         Waste will be collected on <%= @street.collection_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day @street.collection_start %> to <%= format_time_of_day @street.collection_end %>.
       <%- end %>
     </div>
+    <%- if @street.provider_streets.any? %>
+      <div class="pane">
+        <%= @street.provider_streets.inspect # TODO: wow beautiful %>
+      </div>
+    <%- end %>
   </div>
 </main>
