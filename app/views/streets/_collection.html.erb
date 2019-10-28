@@ -1,0 +1,19 @@
+<%- if street.collection_days.size == 7 %>
+  Waste will be collected every day of the week from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.collection_end %>.
+<%- else -%>
+  Waste will be collected on <%= street.collection_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.collection_end %>.
+<%- end %>
+
+<%- if street.provider_streets.any? %>
+  <ul class="list -overrides">
+    <%- street.provider_streets.each do |provider_street| %>
+      <li>
+        <%= provider_street.provider.name %> 
+        <%= street.bag_street ? 'bags' : 'bins' %> 
+        will be collected on <%= provider_street.collection_days.map(&:capitalize).to_sentence %> 
+        from <%= format_time_of_day provider_street.collection_start %> 
+        to <%= format_time_of_day provider_street.collection_end %>.
+      </li>
+    <%- end %>
+  </ul>
+<%- end %>

@@ -1,4 +1,8 @@
-Street.destroy_all # TODO: rethink this as the app develops
+# TODO: rethink this as the app develops
+
+ProviderStreet.destroy_all
+Provider.destroy_all
+Street.destroy_all
 BinBagRetailer.destroy_all
 
 # import from google sheet

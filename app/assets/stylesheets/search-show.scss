@@ -27,8 +27,22 @@
     padding: 1rem;
     border-bottom: 1px solid var(--faint);
 
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+
     &:last-child {
       border-bottom: 0;
+    }
+  }
+}
+
+.list.-overrides {
+  padding: 0 1rem;
+
+  li {
+    &:before {
+      content: '—'
     }
   }
 }
