@@ -5,16 +5,16 @@ class ProviderStreet < ApplicationRecord
   validates :street, presence: true
   validates :provider, presence: true
 
-  validates :collection_start, presence: true
-  validates :collection_days, presence: true
-  validates :presentation_start, presence: true
-  validates :presentation_days, presence: true
+  scope :overrides_collection, -> { where.not(collection_start: nil) }
+  scope :overrides_presentation, -> { where.not(presentation_start: nil) }
 
   def collection_end
-    self.collection_start + self.collection_duration
+    return nil unless collection_start && collection_duration
+    collection_start + collection_duration
   end
 
   def presentation_end
-    self.presentation_start + self.presentation_duration
+    return nil unless presentation_start && presentation_duration
+    presentation_start + presentation_duration
   end
 end
