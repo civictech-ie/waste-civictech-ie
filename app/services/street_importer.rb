@@ -21,10 +21,11 @@ class StreetImporter
   end
 
   def self.import_row!(row_hash)
-    Street.create!(params_from_hash(row_hash))
+    Street.create!(street_params_from_hash(row_hash))
+    ProviderStreet.create(provider_street_params_from_hash(row_hash))
   end
 
-  def self.params_from_hash(h)
+  def self.street_params_from_hash(h)
     collection_days = parse_days(h['CollectionDay'])
     presentation_start_days = parse_days(h['PresentationDayStart'])
     presentation_end_days = parse_days(h['PresentationDayEnd'])
@@ -38,6 +39,30 @@ class StreetImporter
       presentation_days: presentation_start_days,
       presentation_start: parse_time_of_day(h['PresentationTimeStart']),
       presentation_duration: calculate_duration(h['PresentationTimeStart'], presentation_start_days, h['PresentationTimeEnd'], presentation_end_days)
+    }
+  end
+  
+  # atm this is hardcoded to keywaste...
+  def self.provider_street_params_from_hash(h)
+    return nil unless h['KeywasteCollectionTimeStart'].present?
+    h = h.transform_keys(&:downcase) # because Keywaste/KeyWaste is inconsistent
+
+    street = Street.find_by!(name: h['streetname'])
+    provider = Provider.find_or_create_by!(name: 'Keywaste')
+
+    collection_days = parse_days(h['keywastecollectionday'])
+    presentation_start_days = parse_days(h['keywastepresentationdaystart'])
+    presentation_end_days = parse_days(h['keywastepresentationdayend'])
+
+    {
+      street: street,
+      provider: provider,
+      collection_start: parse_time_of_day(h['keywastecollectiontimestart']),
+      collection_duration: calculate_duration(h['keywastecollectiontimestart'], collection_days, h['keywastecollectiontimeend'], nil),
+      collection_days: collection_days,
+      presentation_days: presentation_start_days,
+      presentation_start: parse_time_of_day(h['keywastepresentationtimestart']),
+      presentation_duration: calculate_duration(h['keywastepresentationtimestart'], presentation_start_days, h['keywastepresentationtimeend'], presentation_end_days)
     }
   end
 
