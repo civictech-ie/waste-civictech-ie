@@ -52,7 +52,7 @@ class StreetImporter
     {
       name: h['StreetName'],
       postcode: h['Postcode'],
-      bag_street: parse_boolean(h['BagStreet']),
+      presentation_method: parse_boolean(h['BagStreet']) ? 'bag' : 'bin',
       collection_days: collection_days,
       collection_start: parse_time_of_day(h['CollectionTimeStart']),
       collection_duration: calculate_duration(h['CollectionTimeStart'], collection_days, h['CollectionTimeEnd'], nil),
@@ -94,7 +94,6 @@ class StreetImporter
         reject { |k,v| v.blank? }.keys.each do |provider_str|
           provider = Provider.find_or_create_by!(name: get_name_for_provider_str(provider_str))
           ProviderStreet.find_or_create_by!(street: street, provider: provider)
-          
       end
     when :portobello
       ps_params = provider_street_params_from_portobello_row(row_hash)

@@ -9,8 +9,7 @@
     <%- street.provider_streets.each do |provider_street| %>
       <li>
         <%= provider_street.provider.name %> 
-        <%= street.bag_street ? 'bags' : 'bins' %> 
-        will be collected on <%= provider_street.collection_days.map(&:capitalize).to_sentence %> 
+        waste will be collected on <%= provider_street.collection_days.map(&:capitalize).to_sentence %> 
         from <%= format_time_of_day provider_street.collection_start %> 
         to <%= format_time_of_day provider_street.collection_end %>.
       </li>

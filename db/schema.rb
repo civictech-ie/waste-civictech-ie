@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_30_121305) do
+ActiveRecord::Schema.define(version: 2019_10_31_204924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 2019_09_30_121305) do
     t.text "name"
     t.text "slug"
     t.text "postcode"
-    t.boolean "bag_street", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "display_name"
@@ -63,8 +62,8 @@ ActiveRecord::Schema.define(version: 2019_09_30_121305) do
     t.text "presentation_days", default: [], array: true
     t.integer "presentation_start"
     t.integer "presentation_duration"
+    t.text "presentation_method", default: "bin", null: false
     t.index "to_tsvector('english'::regconfig, display_name)", name: "streets_display_name", using: :gin
-    t.index ["bag_street"], name: "index_streets_on_bag_street"
     t.index ["name"], name: "index_streets_on_name"
     t.index ["postcode"], name: "index_streets_on_postcode"
     t.index ["slug"], name: "index_streets_on_slug", unique: true

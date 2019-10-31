@@ -2,10 +2,10 @@ lennox:
   name: Lennox Street
   slug: lennox-street
   postcode: 2
-  bag_street: true
+  presentation_method: bag
 
 camden:
   name: Camden Street
   slug: camden-street
   postcode: 2
-  bag_street: false
+  presentation_method: bin

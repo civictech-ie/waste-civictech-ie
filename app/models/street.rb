@@ -4,6 +4,8 @@ class Street < ApplicationRecord
   has_many :provider_streets
   has_many :providers, through: :provider_streets
 
+  validates :presentation_method, inclusion: { in: %w(bag bin mixed) }
+
   def to_param
     self.slug
   end
