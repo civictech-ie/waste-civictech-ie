@@ -3,29 +3,49 @@ require 'csv'
 # takes tabular data and creates a bunch of Street records
 
 class StreetImporter
-  def self.import_csv!(csv_file)
-    sheet_rows = CSV.parse(csv_file, headers: true, encoding: 'ISO-8859-1')
-
-    sheet_rows.each do |sheet_row|
-      import_row!(sheet_row)
-    end
-  end
-
-  def self.import_google_sheet!(sheet)
+  def self.import_sheet!(format, sheet)
     labels = sheet.values[0]
     sheet_rows = sheet.values[1..-1]
 
     sheet_rows.each do |sheet_row|
-      import_row!(labels.zip(sheet_row).to_h)
+      import_row!(format, labels.zip(sheet_row).to_h)
     end
   end
 
-  def self.import_row!(row_hash)
-    Street.create!(street_params_from_hash(row_hash))
-    ProviderStreet.create(provider_street_params_from_hash(row_hash))
+  def self.import_row!(format, row_hash) # TODO refactor
+    case format
+    when :citywide
+      street_params = street_params_from_citywide_row(row_hash)
+      slug = "#{ street_params[:postcode] } #{ street_params[:name] }".downcase.parameterize
+
+      s = Street.find_or_initialize_by(slug: slug)
+      s.assign_attributes(street_params)
+      s.save!
+    when :portobello
+      street_params = street_params_from_portobello_row(row_hash)
+      slug = "#{ street_params[:postcode] } #{ street_params[:name] }".downcase.parameterize
+
+      s = Street.find_or_initialize_by(slug: slug)
+      s.assign_attributes(street_params)
+      s.save!
+    else
+      raise 'Unsupported sheet format'
+    end
+
+    add_providers_to_street(format, s, row_hash)
   end
 
-  def self.street_params_from_hash(h)
+  # only for citywide sheet
+  def self.street_params_from_citywide_row(h)
+    h = h.transform_keys(&:downcase)
+    {
+      name: h["steetname"],
+      postcode: h['postcode']
+    }
+  end
+
+  # only for portobello sheet
+  def self.street_params_from_portobello_row(h)
     collection_days = parse_days(h['CollectionDay'])
     presentation_start_days = parse_days(h['PresentationDayStart'])
     presentation_end_days = parse_days(h['PresentationDayEnd'])
@@ -43,12 +63,12 @@ class StreetImporter
   end
   
   # atm this is hardcoded to keywaste...
-  def self.provider_street_params_from_hash(h)
+  def self.provider_street_params_from_portobello_row(h)
     return nil unless h['KeywasteCollectionTimeStart'].present?
     h = h.transform_keys(&:downcase) # because Keywaste/KeyWaste is inconsistent
 
     street = Street.find_by!(name: h['streetname'])
-    provider = Provider.find_or_create_by!(name: 'Keywaste')
+    provider = Provider.find_or_create_by!(name: 'KeyWaste')
 
     collection_days = parse_days(h['keywastecollectionday'])
     presentation_start_days = parse_days(h['keywastepresentationdaystart'])
@@ -64,6 +84,28 @@ class StreetImporter
       presentation_start: parse_time_of_day(h['keywastepresentationtimestart']),
       presentation_duration: calculate_duration(h['keywastepresentationtimestart'], presentation_start_days, h['keywastepresentationtimeend'], presentation_end_days)
     }
+  end
+
+  def self.add_providers_to_street(format, street, row_hash)
+    case format
+    when :citywide
+      row_hash.
+        slice(*%w(ProviderGreyhound ProviderCityBin ProviderAbbeyWaste ProviderKeyWaste ProviderEcoway ProviderAllenWaste)).
+        reject { |k,v| v.blank? }.keys.each do |provider_str|
+          provider = Provider.find_or_create_by!(name: get_name_for_provider_str(provider_str))
+          ProviderStreet.find_or_create_by!(street: street, provider: provider)
+          
+      end
+    when :portobello
+      ps_params = provider_street_params_from_portobello_row(row_hash)
+      if ps_params.present?
+        ps = ProviderStreet.find_or_initialize_by(street: street, provider: ps_params[:provider])
+        ps.assign_attributes(ps_params)
+        ps.save!
+      end
+    else
+      raise 'Unsupported sheet format'
+    end
   end
 
   def self.parse_boolean(b)
@@ -105,6 +147,19 @@ class StreetImporter
   end
 
   private
+
+  def self.get_name_for_provider_str(str)
+    case str
+    when 'ProviderGreyhound' then 'Greyhound'
+    when 'ProviderCityBin' then 'City Bin Co'
+    when 'ProviderAbbeyWaste' then 'Abbey Waste'
+    when 'ProviderKeyWaste' then 'KeyWaste'
+    when 'ProviderEcoway' then 'Ecoway'
+    when 'ProviderAllenWaste' then 'Allen Waste'
+    else
+      raise "Unhandled provider string: #{ str }"
+    end
+  end
 
   def self.distance_between_days(day_1_str, day_2_str) # only works forwards (day 2 always comes after day 1)
     day_1_int = Date::DAYNAMES.index(day_1_str.capitalize)

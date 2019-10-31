@@ -9,11 +9,15 @@
     <div class="pane">
       This is a <%= @street.bag_street ? 'paid for waste bag' : 'wheelie bin' %> street.
     </div>
-    <div class="pane">
-      <%= render partial: 'streets/presentation', locals: {street: @street} %>
-    </div>
-    <div class="pane">
-      <%= render partial: 'streets/collection', locals: {street: @street} %>
-    </div>
+    <%- if @street.presentation_start %>
+      <div class="pane">
+        <%= render partial: 'streets/presentation', locals: {street: @street} %>
+      </div>
+    <%- end %>
+    <%- if @street.collection_start %>
+      <div class="pane">
+        <%= render partial: 'streets/collection', locals: {street: @street} %>
+      </div>
+    <%- end %>
   </div>
 </main>
