@@ -5,7 +5,7 @@ ruby '2.6.3'
 
 gem 'rails', '~> 6.0.x'
 gem 'pg'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'sass-rails'
 gem 'webpacker', github: "rails/webpacker"
 gem 'jbuilder', '~> 2.7'
