@@ -56,7 +56,7 @@
   }
 
   async function fetchSearchResults(q) {
-		const res = await fetch(`/streets/search?q=${q}`, {
+		const res = await fetch(`/api/v1/streets/search?q=${q}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
