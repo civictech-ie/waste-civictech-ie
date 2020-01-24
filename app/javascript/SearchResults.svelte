@@ -1,4 +1,5 @@
 <script>
+	import { fade, fly } from 'svelte/transition';
   import ResultsPane from './ResultsPane.svelte';
 
   export let focused;
@@ -8,14 +9,11 @@
   let streets = [];
   let selectionIndex = 0;
 
+  $: queryHasChanged = (query !== prepopulatedQuery)
   $: anyResults = !!streets.length;
   $: anyQuery = ((query.length) && (query.length > 1))
   $: updateSelection(selectionIndex, streets)
   $: updateStreets(query)
-
-  function hasQueryChanged() {
-    return query !== prepopulatedQuery;
-  }
 
 	function keyUpHandler(e) {
 		if ((e.keyCode == 39) || (e.keyCode == 40)) {
@@ -45,7 +43,7 @@
   }
 
   function updateStreets(q) {
-    if (anyQuery && hasQueryChanged()) {
+    if (anyQuery && queryHasChanged) {
       fetchSearchResults(q)
         .then(data => {
           streets = data;
@@ -98,12 +96,12 @@
 
 <svelte:window on:keyup={keyUpHandler} />
 
-{#if focused && hasQueryChanged()}
+{#if focused && queryHasChanged}
   <ResultsPane>
     {#if anyResults}
       <ul class="search-results">
         {#each streets as { selected, name, postcode, slug }, i}
-          <li>
+          <li transition:fade>
             <a href="/streets/{slug}" class="search-result" class:selected={selected}>
               <h3>{name}</h3>
               <p>Dublin {postcode}</p>
