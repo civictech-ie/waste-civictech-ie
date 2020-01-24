@@ -14,6 +14,7 @@ class BinBagRetailerImporter
         google_map_has_opening_hours: retailer['Google Map Opening Times'] == "Y",
         providers: parse_providers([retailer['Has Keywaste'], retailer['Has Greyhound'], retailer['Has Abbey Waste']])
       })
+
     end
   end
 
