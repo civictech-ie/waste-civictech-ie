@@ -8,10 +8,6 @@ class StreetsController < ApplicationController
     end
   end
 
-  def index
-    @streets = Street.order('name asc')
-  end
-
   def show
     @street = Street.find_by(slug: params[:id])
     @query = @street.name

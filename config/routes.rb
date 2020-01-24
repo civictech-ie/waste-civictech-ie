@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   root to: 'streets#search'
   
-  get '/:postcode/:street_slug', to: 'streets#show'
-  resources :streets, only: [:index, :show] do
+  resources :streets, only: [:show] do
     collection { get :search }
   end
+  get '/:postcode/:street_slug', to: 'streets#show'
 
   namespace :api do
     namespace :v1 do

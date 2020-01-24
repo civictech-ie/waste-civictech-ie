@@ -1,4 +1,5 @@
 <script>
+	import { fade } from 'svelte/transition';
   import SearchResults from './SearchResults.svelte';
 
   export let query;
@@ -26,7 +27,7 @@
 
 <div class="search">
   {#if !query}
-    <div class="note">
+    <div class="note" transition:fade>
       <p>Properly disposing of household rubbish in Dublin can be surprisingly confusing. Enter your street below and we'll walk you through it.</p>  
     </div>
   {/if}
