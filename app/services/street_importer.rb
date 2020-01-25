@@ -113,7 +113,7 @@ class StreetImporter
     (b.nil? or b.downcase != 'y') ? false : true
   end
 
-  def parse_presentation_method(v)
+  def self.parse_presentation_method(v)
     case v.downcase
     when 'mixed' then 'mixed'
     when 'bag' then 'bag'
