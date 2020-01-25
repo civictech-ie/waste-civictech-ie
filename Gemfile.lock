@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/webpacker.git
-  revision: c7292e9a1e158e5fc9ec3026256cf7a42d70f549
+  revision: 787f02c0b1263f20ebfd2969cf3b7d11070773a4
   specs:
     webpacker (4.2.2)
       activesupport (>= 4.2)
@@ -77,6 +77,8 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    appsignal (2.10.1)
+      rack
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -297,6 +299,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  appsignal
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug

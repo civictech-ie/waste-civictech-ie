@@ -1,0 +1,12 @@
+default: &defaults
+  push_api_key: Rails.application.credentials.dig(:app_signal_key)
+
+  name: "waste-civictech-ie"
+
+development:
+  <<: *defaults
+  active: false
+
+production:
+  <<: *defaults
+  active: true

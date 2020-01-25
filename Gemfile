@@ -14,6 +14,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'textacular', '~> 5.0' # pg search
 gem 'google-api-client' # google sheet
+gem 'appsignal' # performance monitoring
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
