@@ -1,5 +1,6 @@
 class HealthController < ApplicationController
   def check
-    render json: {status: 200}
+    @count = Street.count
+    render json: {status: ((@count > 500) ? 200 : 500), streets: @count}
   end
 end
