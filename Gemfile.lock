@@ -199,6 +199,8 @@ GEM
     rack (2.1.1)
     rack-livereload (0.3.17)
       rack
+    rack-mini-profiler (1.1.4)
+      rack (>= 1.2.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -309,6 +311,7 @@ DEPENDENCIES
   pg
   puma
   rack-livereload
+  rack-mini-profiler
   rails (~> 6.0.x)
   redis (~> 4.0)
   sass-rails

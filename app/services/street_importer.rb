@@ -40,7 +40,9 @@ class StreetImporter
     h = h.transform_keys(&:downcase)
     {
       name: h["steetname"],
-      postcode: h['postcode']
+      postcode: h['postcode'],
+      name_gaeilge: h["sraidainm"],
+      presentation_method: parse_presentation_method(h['bagstreet'])
     }
   end
 
@@ -109,6 +111,14 @@ class StreetImporter
 
   def self.parse_boolean(b)
     (b.nil? or b.downcase != 'y') ? false : true
+  end
+
+  def parse_presentation_method(v)
+    case v.downcase
+    when 'mixed' then 'mixed'
+    when 'bag' then 'bag'
+    else 'bin'
+    end
   end
 
   def self.parse_days(days_str) # TODO: this is very hacky

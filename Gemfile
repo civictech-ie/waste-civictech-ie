@@ -29,6 +29,7 @@ group :development do
   gem 'rack-livereload', group: :development
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'guard-minitest'
+  gem 'rack-mini-profiler'
 end
 
 group :test do
