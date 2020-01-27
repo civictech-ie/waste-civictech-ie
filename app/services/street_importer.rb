@@ -41,7 +41,6 @@ class StreetImporter
     {
       name: h["steetname"],
       postcode: h['postcode'],
-      name_gaeilge: h["sraidainm"],
       presentation_method: parse_presentation_method(h['bagstreet'])
     }
   end

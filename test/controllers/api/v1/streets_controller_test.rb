@@ -8,6 +8,15 @@ class Api::V1::StreetsControllerTest < ActionDispatch::IntegrationTest
     assert @response.body.include? street.name
   end
 
+  # test "search" do
+  #   street1 = streets(:lennox)
+  #   street2 = streets(:camden)
+  #   get search_api_v1_streets_url, params: {q: 'len'}, as: :json
+    
+  #   assert @response.body.include? street1.name
+  #   assert_not @response.body.include? street2.name
+  # end
+
   test "show" do
     street1 = streets(:lennox)
     street2 = streets(:camden)
