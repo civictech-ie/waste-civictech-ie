@@ -28,8 +28,7 @@
 <div class="search">
   {#if !query}
     <div class="note" transition:fade>
-      <p>Properly disposing of household rubbish in Dublin City can be confusing. 
-Enter your street below and tell you how it works for you.</p>
+      <p>Properly disposing of household rubbish in Dublin City can be confusing. Enter your street below and we'll tell you how it works for you.</p>
     </div>
   {/if}
 
