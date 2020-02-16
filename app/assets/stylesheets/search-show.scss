@@ -32,7 +32,10 @@
 
   .pane {
     padding: 1rem;
-    border-bottom: 1px solid var(--faint);
+
+    & > h3 {
+      border-bottom: 1px solid var(--black)
+    }
 
     & > *:last-child {
       margin-bottom: 0;
