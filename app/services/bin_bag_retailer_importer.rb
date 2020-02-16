@@ -11,6 +11,7 @@ class BinBagRetailerImporter
         address: retailer['Shop Address'],
         postcode: retailer['Postcode'],
         google_map_url: retailer['Google Map Location'],
+        google_maps_address: retailer['Google Maps Address'],
         google_map_has_opening_hours: retailer['Google Map Opening Times'] == "Y",
         providers: parse_providers([retailer['Has Keywaste'], retailer['Has Greyhound'], retailer['Has Abbey Waste']])
       })
