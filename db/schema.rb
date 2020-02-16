@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_162851) do
+ActiveRecord::Schema.define(version: 2020_02_16_181540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bin_bag_retailer_streets", force: :cascade do |t|
+    t.bigint "bin_bag_retailer_id", null: false
+    t.bigint "street_id", null: false
+    t.integer "duration_in_seconds"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bin_bag_retailer_id"], name: "index_bin_bag_retailer_streets_on_bin_bag_retailer_id"
+    t.index ["street_id"], name: "index_bin_bag_retailer_streets_on_street_id"
+  end
 
   create_table "bin_bag_retailers", force: :cascade do |t|
     t.text "name"
@@ -64,14 +74,15 @@ ActiveRecord::Schema.define(version: 2020_02_16_162851) do
     t.integer "presentation_start"
     t.integer "presentation_duration"
     t.text "presentation_method", default: "bin", null: false
-    t.text "alternative_names", default: [], array: true
-    t.text "name_gaeilge"
+    t.text "sraid_ainm"
     t.index "to_tsvector('english'::regconfig, display_name)", name: "streets_display_name", using: :gin
     t.index ["name"], name: "index_streets_on_name"
     t.index ["postcode"], name: "index_streets_on_postcode"
     t.index ["slug"], name: "index_streets_on_slug", unique: true
   end
 
+  add_foreign_key "bin_bag_retailer_streets", "bin_bag_retailers"
+  add_foreign_key "bin_bag_retailer_streets", "streets"
   add_foreign_key "provider_streets", "providers"
   add_foreign_key "provider_streets", "streets"
 end
