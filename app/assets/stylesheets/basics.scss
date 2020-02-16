@@ -1,15 +1,17 @@
 html {
-  font-size: 0.9vw;
+  font-size: 11px;
 }
 
 body {
   background: var(--faint);
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: "Libre Franklin", sans-serif;
   font-size: 1.5rem;
   line-height: 1.6;
 }
 
-a, a:link, a:visited {
+a,
+a:link,
+a:visited {
   color: var(--blue);
   text-decoration: none;
   &:hover {

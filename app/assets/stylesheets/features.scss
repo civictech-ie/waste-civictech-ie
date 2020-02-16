@@ -1,9 +1,19 @@
 .features {
-  display: flex;
-  flex-direction: column;
+  margin-top: 10rem;
 
   .feature {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
+    margin-bottom: 3rem;
+
+    .icon {
+      img {
+        height: 90px;
+      }
+    }
+
+    .content {
+      padding-left: 1.5rem;
+    }
   }
 }
