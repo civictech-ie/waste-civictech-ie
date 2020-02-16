@@ -16,6 +16,13 @@
     h1 {
       color: var(--white);
       font-size: 2.1rem;
+      display: flex;
+      flex-direction: column-reverse;
+      span:last-child {
+        font-weight: 400;
+        font-style: italic;
+        font-size: 1.5rem;
+      }
     }
   
     p {
