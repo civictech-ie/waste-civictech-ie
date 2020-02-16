@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2020_02_16_170452) do
     t.text "providers", default: [], array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "google_maps_address"
   end
 
   create_table "provider_streets", force: :cascade do |t|
