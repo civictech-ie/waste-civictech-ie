@@ -1,10 +1,3 @@
-# TODO: rethink this as the app develops
-
-ProviderStreet.destroy_all
-Provider.destroy_all
-Street.destroy_all
-BinBagRetailer.destroy_all
-
 # import the good Portobello data
 portobello_data = GoogleSheets.fetch_range_from_sheet(ENV['GOOGLE_SHEETS_PORTOBELLO_ID'],ENV['GOOGLE_SHEETS_PORTOBELLO_RANGE'])
 StreetImporter.import_sheet!(:portobello, portobello_data)

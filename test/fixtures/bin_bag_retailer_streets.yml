@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bin_bag_retailer: one
+  street: 
+  duration_in_seconds: 1
+
+two:
+  bin_bag_retailer: two
+  street: 
+  duration_in_seconds: 1
