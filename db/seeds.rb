@@ -1,3 +1,5 @@
+BinBagRetailerImporter.destroy_duplicates!
+
 # import the good Portobello data
 portobello_data = GoogleSheets.fetch_range_from_sheet(ENV['GOOGLE_SHEETS_PORTOBELLO_ID'],ENV['GOOGLE_SHEETS_PORTOBELLO_RANGE'])
 StreetImporter.import_sheet!(:portobello, portobello_data)
