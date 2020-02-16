@@ -7,6 +7,12 @@ class Street < ApplicationRecord
   validates :presentation_method, inclusion: { in: %w(bag bin mixed) }
   validates :slug, uniqueness: true
 
+  def calculate_nearest_retailers!
+    BinBagRetailer.all.each do |retailer|
+      BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
+    end
+  end
+
   def to_param
     self.slug
   end
