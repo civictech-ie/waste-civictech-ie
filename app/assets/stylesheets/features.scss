@@ -1,0 +1,9 @@
+.features {
+  display: flex;
+  flex-direction: column;
+
+  .feature {
+    display: flex;
+    flex-direction: row;
+  }
+}
