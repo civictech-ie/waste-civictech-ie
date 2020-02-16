@@ -11,5 +11,6 @@
     </header>
     <%= render partial: 'collection', locals: {street: @street} -%>
     <%= render partial: 'times', locals: {street: @street} -%>
+    <%= render partial: 'streets/bin_bag_retailer_distance', locals: {street: @street} %>
   </div>
 </main>

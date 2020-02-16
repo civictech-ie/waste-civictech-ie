@@ -5,6 +5,10 @@ class BinBagRetailerStreet < ApplicationRecord
 
   before_validation :calculate_duration, if: -> { self.duration_in_seconds.blank? }
 
+  def duration_in_minutes
+    (self.duration_in_seconds.to_f / 60).ceil
+  end
+
   private
 
   def calculate_duration

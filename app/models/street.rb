@@ -11,6 +11,10 @@ class Street < ApplicationRecord
   validates :slug, uniqueness: true
 
   def calculate_nearest_retailers!
+    if self.presentation_method == 'bin'
+      return true
+    end
+
     BinBagRetailer.where.not(google_maps_address: [nil,'']).where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
       BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
     end
@@ -18,6 +22,14 @@ class Street < ApplicationRecord
 
   def nearest_retailers
     self.bin_bag_retailer_streets.order('duration_in_seconds asc').limit(3).map(&:bin_bag_retailer)
+  end
+
+  def nearest_retailer_streets
+    if self.presentation_method == 'bin'
+      return []
+    end
+
+    self.bin_bag_retailer_streets.order('duration_in_seconds asc').limit(3)
   end
 
   def to_param
