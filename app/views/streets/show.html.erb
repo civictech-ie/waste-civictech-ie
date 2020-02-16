@@ -19,5 +19,8 @@
         <%= render partial: 'streets/collection', locals: {street: @street} %>
       </div>
     <%- end %>
+    <div class="pane">
+      <%= render partial: 'streets/bin_bag_retailer_distance', locals: {street: @street} %>
+    </div>
   </div>
 </main>

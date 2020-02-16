@@ -1,0 +1,14 @@
+<h1>Shops</h1>
+<p>
+  You can buy general waste and recycling bin bags online or from local shops. The nearest shops selling Bin Bags for your street are:
+</p>
+<ul class="list -overrides">
+  <%- street.nearest_retailer_streets.each do |retailer_street| %>
+    <li>
+      <%= pluralize retailer_street.duration_in_minutes, 'minute' %> away -
+      <%= retailer_street.bin_bag_retailer.name %>,
+      <%= retailer_street.bin_bag_retailer.address %>
+      (<a href="https://maps.google.com?q=<%= retailer_street.bin_bag_retailer.google_maps_address %>">View on Google Maps</a>)
+    </li>
+  <%- end %>
+</ul>
