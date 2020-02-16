@@ -4,11 +4,14 @@ class Street < ApplicationRecord
   has_many :provider_streets
   has_many :providers, through: :provider_streets
 
+  has_many :bin_bag_retailer_streets
+  has_many :bin_bag_retailers, through: :bin_bag_retailer_streets
+
   validates :presentation_method, inclusion: { in: %w(bag bin mixed) }
   validates :slug, uniqueness: true
 
   def calculate_nearest_retailers!
-    BinBagRetailer.all.each do |retailer|
+    BinBagRetailer.where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
       BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
     end
   end
