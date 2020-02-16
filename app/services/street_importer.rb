@@ -38,12 +38,14 @@ class StreetImporter
   # only for citywide sheet
   def self.street_params_from_citywide_row(h)
     h = h.transform_keys(&:downcase)
-    {
+    collection_area_to_params(h['collectionarea']).merge({
       name: h["steetname"],
+      sraid_ainm: h["sraidainm"],
       postcode: h['postcode'],
       presentation_method: parse_presentation_method(h['bagstreet'])
-    }
+    })
   end
+  
 
   # only for portobello sheet
   def self.street_params_from_portobello_row(h)
@@ -62,7 +64,31 @@ class StreetImporter
       presentation_duration: calculate_duration(h['PresentationTimeStart'], presentation_start_days, h['PresentationTimeEnd'], presentation_end_days)
     }
   end
-  
+
+  # atm this is hardcoded and shouldn't be!
+  def self.collection_area_to_params(area)
+    case area&.downcase&.to_sym
+    when :monday
+      {collection_days: ['monday'], collection_start: 6.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['sunday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :tuesday
+      {collection_days: ['tuesday'], collection_start: 6.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['monday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :wednesday
+      {collection_days: ['wednesday'], collection_start: 6.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['tuesday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :thursday
+      {collection_days: ['thursday'], collection_start: 6.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['wednesday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :friday
+      {collection_days: ['friday'], collection_start: 6.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['thursday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :bank_holiday
+      {collection_days: ['friday'], collection_start: 8.hours.to_i, collection_duration: (21 - 6).hours.to_i, presentation_days: ['thursday'], presentation_start: 18.hours.to_i, presentation_duration: (24-18+21).hours.to_i}
+    when :centralcommercialdistrict
+      {collection_days: %w(monday tuesday wednesday thursday friday saturday sunday), collection_start: 19.hours.to_i, collection_duration: (24-19).hours.to_i, presentation_days: %w(monday tuesday wednesday thursday friday saturday sunday), presentation_start: 17.hours.to_i, presentation_duration: (24 - 17).hours.to_i}
+    when :nightimeeconomy
+      {collection_days: %w(monday tuesday wednesday thursday friday saturday sunday), collection_start: 19.hours.to_i, collection_duration: (24 + 4 - 19).hours.to_i, presentation_days: %w(monday tuesday wednesday thursday friday saturday sunday), presentation_start: 17.hours.to_i, presentation_duration: (24 + 4 - 17).hours.to_i}
+    else
+      {}
+    end
+  end
+
   # atm this is hardcoded to keywaste...
   def self.provider_street_params_from_portobello_row(h)
     return nil unless h['KeywasteCollectionTimeStart'].present?

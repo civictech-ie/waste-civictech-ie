@@ -1,18 +1,4 @@
-<%- if street.collection_days.size == 7 %>
-  Waste will be collected every day of the week from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.collection_end %>.
-<%- else -%>
-  Waste will be collected on <%= street.collection_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.collection_end %>.
-<%- end %>
-
-<%- if street.provider_streets.overrides_collection.any? %>
-  <ul class="list -overrides">
-    <%- street.provider_streets.each do |provider_street| %>
-      <li>
-        <%= provider_street.provider.name %> 
-        waste will be collected on <%= provider_street.collection_days.map(&:capitalize).to_sentence %> 
-        from <%= format_time_of_day provider_street.collection_start %> 
-        to <%= format_time_of_day provider_street.collection_end %>.
-      </li>
-    <%- end %>
-  </ul>
-<%- end %>
+<div class="pane">
+  <h3>Collection</h3>
+  <p>Rubbish on this street is collected in <%= format_presentation_method street.presentation_method -%> by <%= street.providers.pluck(:name).to_sentence -%>.</p>
+</div>

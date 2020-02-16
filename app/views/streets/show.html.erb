@@ -3,21 +3,13 @@
 <main>
   <div class="street-show">
     <header>
-      <h1><%= @street.name -%></h1>
+      <h1>
+        <span><%= @street.name -%></span>
+        <span><%= @street.sraid_ainm -%></span>
+      </h1>
       <p>Dublin <%= @street.postcode -%></p>
     </header>
-    <div class="pane">
-      This is a <%= @street.presentation_method %> street serviced by <%= @street.providers.map(&:name).to_sentence %>.
-    </div>
-    <%- if @street.presentation_start %>
-      <div class="pane">
-        <%= render partial: 'streets/presentation', locals: {street: @street} %>
-      </div>
-    <%- end %>
-    <%- if @street.collection_start %>
-      <div class="pane">
-        <%= render partial: 'streets/collection', locals: {street: @street} %>
-      </div>
-    <%- end %>
+    <%= render partial: 'collection', locals: {street: @street} -%>
+    <%= render partial: 'times', locals: {street: @street} -%>
   </div>
 </main>
