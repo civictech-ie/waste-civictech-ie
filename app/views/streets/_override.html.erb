@@ -1,0 +1,10 @@
+
+<%- if street.provider_streets.overrides_collection.any? or street.provider_streets.overrides_presentation.any? -%>
+  <%- street.provider_streets.overrides_presentation.each do |provider_street| -%>
+    <div class="pane">
+      <h3>Note for <%= provider_street.provider.name -%> bag customers</h3>
+      <p><%= provider_street.provider.name -%> customers should put rubbish out from <%= format_time_of_day provider_street.calculated_presentation_start -%>.</p>
+      <p><%= provider_street.provider.name -%> rubbish will be collected from <%= format_time_of_day provider_street.calculated_collection_start %> to <%= format_time_of_day provider_street.calculated_presentation_end %>.</p>
+    </div>
+  <%- end -%>
+<%- end -%>
