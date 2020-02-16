@@ -6,12 +6,12 @@
 
 <%- if street.provider_streets.overrides_presentation.any? %>
   <ul class="list -overrides">
-    <%- street.provider_streets.each do |provider_street| %>
+    <%- street.provider_streets.overrides_presentation.each do |provider_street| %>
       <li>
         <%= provider_street.provider.name %> 
-        waste should be put out on <%= provider_street.presentation_days.map(&:capitalize).to_sentence %> 
-        from <%= format_time_of_day provider_street.presentation_start %> 
-        to <%= format_time_of_day provider_street.presentation_end %>.
+        waste should be put out on <%= provider_street.calculated_presentation_days.map(&:capitalize).to_sentence %> 
+        from <%= format_time_of_day provider_street.calculated_presentation_start %> 
+        to <%= format_time_of_day provider_street.calculated_presentation_end %>.
       </li>
     <%- end %>
   </ul>

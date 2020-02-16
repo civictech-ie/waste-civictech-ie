@@ -6,12 +6,12 @@
 
 <%- if street.provider_streets.overrides_collection.any? %>
   <ul class="list -overrides">
-    <%- street.provider_streets.each do |provider_street| %>
+    <%- street.provider_streets.overrides_collection.each do |provider_street| %>
       <li>
         <%= provider_street.provider.name %> 
-        waste will be collected on <%= provider_street.collection_days.map(&:capitalize).to_sentence %> 
-        from <%= format_time_of_day provider_street.collection_start %> 
-        to <%= format_time_of_day provider_street.collection_end %>.
+        waste will be collected on <%= provider_street.calculated_collection_days.map(&:capitalize).to_sentence %> 
+        from <%= format_time_of_day provider_street.calculated_collection_start %> 
+        to <%= format_time_of_day provider_street.calculated_collection_end %>.
       </li>
     <%- end %>
   </ul>
