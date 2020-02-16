@@ -16,6 +16,10 @@ class Street < ApplicationRecord
     end
   end
 
+  def nearest_retailers
+    self.bin_bag_retailer_streets.order('duration_in_seconds asc').limit(3).map(&:bin_bag_retailer)
+  end
+
   def to_param
     self.slug
   end
