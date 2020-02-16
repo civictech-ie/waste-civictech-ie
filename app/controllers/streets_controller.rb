@@ -10,6 +10,7 @@ class StreetsController < ApplicationController
 
   def show
     @street = Street.find_by(slug: params[:id])
+    @street.calculate_nearest_retailers!
     @query = @street.name
   end
 end

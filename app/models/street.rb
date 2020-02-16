@@ -11,7 +11,7 @@ class Street < ApplicationRecord
   validates :slug, uniqueness: true
 
   def calculate_nearest_retailers!
-    BinBagRetailer.where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
+    BinBagRetailer.where.not(google_maps_address: [nil,'']).where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
       BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
     end
   end
@@ -34,6 +34,10 @@ class Street < ApplicationRecord
 
   def presentation_end
     self.presentation_start + self.presentation_duration
+  end
+
+  def google_maps_address
+    [self.name, "Dublin", "D#{self.postcode.split(',').first}", "Ireland"].join(', ')
   end
 
   private

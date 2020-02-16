@@ -2,6 +2,15 @@ require "net/http"
 require "json"
 
 class GoogleMaps
+  def self.calculate_distance_between(retailer, street) # return duration in seconds
+    res = fetch_walking_distance(retailer.google_maps_address, street.google_maps_address)[0]
+    if res
+      res['elements'][0]['duration']['value']
+    else
+      nil
+    end
+  end
+
   def self.fetch_walking_distance(origins, destinations)
     api_key = Rails.application.credentials.google_api_key
     uri = URI::HTTPS.build(
