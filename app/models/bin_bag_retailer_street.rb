@@ -4,7 +4,7 @@ class BinBagRetailerStreet < ApplicationRecord
   validates :duration_in_seconds, presence: true
   validates :bin_bag_retailer, uniqueness: {scope: :street_id}
 
-  before_validation :calculate_duration, if: -> { self.duration_in_seconds.blank? }
+  before_validation :calculate_duration, if: -> { self.duration_in_seconds.nil? }
 
   def duration_in_minutes
     (self.duration_in_seconds.to_f / 60).ceil

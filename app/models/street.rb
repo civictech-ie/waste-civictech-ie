@@ -11,28 +11,15 @@ class Street < ApplicationRecord
   validates :slug, uniqueness: true
 
   def self.calculate_all_distances!
-    where(presentation_method: %w(bag mixed)).each do |street|
-      street.calculate_nearest_retailers!
-    end
-  end
-
-  def calculate_nearest_retailers!
-    return true if (self.presentation_method == 'bin')
-
-    BinBagRetailer.where.not(google_maps_address: [nil,'']).where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
-      BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
-    end
+    where(presentation_method: %w(bag mixed)).each(&:calculate_nearest_retailers!)
   end
 
   def nearest_retailers
-    self.bin_bag_retailer_streets.order('duration_in_seconds asc').limit(3).map(&:bin_bag_retailer)
+    self.big_bag_retailers.includes(:bin_bag_retailer_streets).order('bin_bag_retailer_streets.duration_in_seconds').limit(3)
   end
 
   def nearest_retailer_streets
-    if self.presentation_method == 'bin'
-      return []
-    end
-
+    return [] unless %w(bag mixed).include? self.presentation_method
     self.bin_bag_retailer_streets.order('duration_in_seconds asc').limit(3)
   end
 
@@ -54,6 +41,14 @@ class Street < ApplicationRecord
 
   def google_maps_address
     [self.name, "Dublin", "D#{self.postcode.split(',').first}", "Ireland"].join(', ')
+  end
+
+  def calculate_nearest_retailers!
+    return unless %w(bag mixed).include? self.presentation_method
+    BinBagRetailer.where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
+      bbrs = BinBagRetailerStreet.find_or_initialize_by(bin_bag_retailer: retailer, street: self)
+      bbrs.save!
+    end
   end
 
   private
