@@ -10,10 +10,14 @@ class Street < ApplicationRecord
   validates :presentation_method, inclusion: { in: %w(bag bin mixed) }
   validates :slug, uniqueness: true
 
-  def calculate_nearest_retailers!
-    if self.presentation_method == 'bin'
-      return true
+  def self.calculate_all_distances!
+    where(presentation_method: %w(bag mixed)).each do |street|
+      street.calculate_nearest_retailers!
     end
+  end
+
+  def calculate_nearest_retailers!
+    return true if (self.presentation_method == 'bin')
 
     BinBagRetailer.where.not(google_maps_address: [nil,'']).where.not(id: self.bin_bag_retailers.pluck(:id)).each do |retailer|
       BinBagRetailerStreet.create!(bin_bag_retailer: retailer, street: self)
