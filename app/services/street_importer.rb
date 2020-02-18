@@ -3,36 +3,25 @@ require 'csv'
 # takes tabular data and creates a bunch of Street records
 
 class StreetImporter
-  def self.import_sheet!(format, sheet)
+  def self.import_sheet!(sheet)
     labels = sheet.values[0]
     sheet_rows = sheet.values[1..-1]
 
     sheet_rows.each do |sheet_row|
-      import_row!(format, labels.zip(sheet_row).to_h)
+      import_row!(labels.zip(sheet_row).to_h)
     end
   end
 
-  def self.import_row!(format, row_hash) # TODO refactor
-    case format
-    when :citywide
-      street_params = street_params_from_citywide_row(row_hash)
-      slug = "#{ street_params[:postcode] } #{ street_params[:name] }".downcase.parameterize
+  def self.import_row!(row_hash) # TODO refactor
+    street_params = street_params_from_citywide_row(row_hash)
+    slug = "#{ street_params[:postcode] } #{ street_params[:name] }".downcase.parameterize
 
-      s = Street.find_or_initialize_by(slug: slug)
-      s.assign_attributes(street_params)
-      s.save!
-    when :portobello
-      street_params = street_params_from_portobello_row(row_hash)
-      slug = "#{ street_params[:postcode] } #{ street_params[:name] }".downcase.parameterize
+    s = Street.find_or_initialize_by(slug: slug)
+    s.assign_attributes(street_params)
+    s.seeded_at = Time.now
+    s.save!
 
-      s = Street.find_or_initialize_by(slug: slug)
-      s.assign_attributes(street_params)
-      s.save!
-    else
-      raise 'Unsupported sheet format'
-    end
-
-    add_providers_to_street(format, s, row_hash)
+    add_providers_to_street(s, row_hash)
   end
 
   # only for citywide sheet
@@ -44,25 +33,6 @@ class StreetImporter
       postcode: h['postcode'],
       presentation_method: parse_presentation_method(h['bagstreet'])
     })
-  end
-  
-
-  # only for portobello sheet
-  def self.street_params_from_portobello_row(h)
-    collection_days = parse_days(h['CollectionDay'])
-    presentation_start_days = parse_days(h['PresentationDayStart'])
-    presentation_end_days = parse_days(h['PresentationDayEnd'])
-    {
-      name: h['StreetName'],
-      postcode: h['Postcode'],
-      presentation_method: parse_boolean(h['BagStreet']) ? 'bag' : 'bin',
-      collection_days: collection_days,
-      collection_start: parse_time_of_day(h['CollectionTimeStart']),
-      collection_duration: calculate_duration(h['CollectionTimeStart'], collection_days, h['CollectionTimeEnd'], nil),
-      presentation_days: presentation_start_days,
-      presentation_start: parse_time_of_day(h['PresentationTimeStart']),
-      presentation_duration: calculate_duration(h['PresentationTimeStart'], presentation_start_days, h['PresentationTimeEnd'], presentation_end_days)
-    }
   end
 
   # atm this is hardcoded and shouldn't be!
@@ -89,48 +59,42 @@ class StreetImporter
     end
   end
 
-  # atm this is hardcoded to keywaste...
-  def self.provider_street_params_from_portobello_row(h)
-    return nil unless h['KeywasteCollectionTimeStart'].present?
-    h = h.transform_keys(&:downcase) # because Keywaste/KeyWaste is inconsistent
-
-    street = Street.find_by!(name: h['streetname'])
-    provider = Provider.find_or_create_by!(name: 'KeyWaste')
-
-    collection_days = parse_days(h['keywastecollectionday'])
-    presentation_start_days = parse_days(h['keywastepresentationdaystart'])
-    presentation_end_days = parse_days(h['keywastepresentationdayend'])
-
-    {
-      street: street,
-      provider: provider,
-      collection_start: parse_time_of_day(h['keywastecollectiontimestart']),
-      collection_duration: calculate_duration(h['keywastecollectiontimestart'], collection_days, h['keywastecollectiontimeend'], nil),
-      collection_days: collection_days,
-      presentation_days: presentation_start_days,
-      presentation_start: parse_time_of_day(h['keywastepresentationtimestart']),
-      presentation_duration: calculate_duration(h['keywastepresentationtimestart'], presentation_start_days, h['keywastepresentationtimeend'], presentation_end_days)
-    }
+  def self.add_providers_to_street(street, row_hash)
+    row_hash.
+      slice(*%w(ProviderGreyhound ProviderCityBin ProviderAbbeyWaste ProviderKeyWaste ProviderEcoway ProviderAllenWaste)).
+      reject { |k,v| v.blank? }.keys.each do |provider_str|
+        provider = Provider.find_or_create_by!(name: get_name_for_provider_str(provider_str))
+        ps = ProviderStreet.find_or_create_by!(street: street, provider: provider)
+        ps.assign_attributes provider_street_params(provider, street, row_hash)
+        ps.save!
+    end
   end
 
-  def self.add_providers_to_street(format, street, row_hash)
-    case format
-    when :citywide
-      row_hash.
-        slice(*%w(ProviderGreyhound ProviderCityBin ProviderAbbeyWaste ProviderKeyWaste ProviderEcoway ProviderAllenWaste)).
-        reject { |k,v| v.blank? }.keys.each do |provider_str|
-          provider = Provider.find_or_create_by!(name: get_name_for_provider_str(provider_str))
-          ProviderStreet.find_or_create_by!(street: street, provider: provider)
-      end
-    when :portobello
-      ps_params = provider_street_params_from_portobello_row(row_hash)
-      if ps_params.present?
-        ps = ProviderStreet.find_or_initialize_by(street: street, provider: ps_params[:provider])
-        ps.assign_attributes(ps_params)
-        ps.save!
-      end
+  def self.provider_street_params(provider, street, row_hash)
+    if provider.slug == 'keywaste'
+      { street: street,
+        provider: provider }.merge(keywaste_params_for(row_hash))
     else
-      raise 'Unsupported sheet format'
+      {street: street, provider: provider}
+    end
+  end
+  
+  def self.keywaste_params_for(row_hash)
+    case row_hash['KeyWasteCollectionDay']&.downcase&.strip&.to_sym
+    when :monday, :tuesday, :wednesday, :thursday, :friday
+      {
+        collection_days: [row_hash['KeyWasteCollectionDay']&.downcase&.strip],
+        presentation_days: [row_hash['KeyWasteCollectionDay']&.downcase&.strip],
+        presentation_start: 17.5.hours.to_i
+      }
+    when :alldays
+      {
+        collection_days: %w(monday tuesday wednesday thursday friday saturday sunday),
+        presentation_days: %w(monday tuesday wednesday thursday friday saturday sunday),
+        presentation_start: 17.5.hours.to_i
+      }
+    else
+      {}
     end
   end
 
