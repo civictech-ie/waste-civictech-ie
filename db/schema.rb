@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_181540) do
+ActiveRecord::Schema.define(version: 2020_02_18_164017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,10 +74,14 @@ ActiveRecord::Schema.define(version: 2020_02_16_181540) do
     t.integer "presentation_start"
     t.integer "presentation_duration"
     t.text "presentation_method", default: "bin", null: false
+    t.text "alternative_names", default: [], array: true
+    t.text "name_gaeilge"
     t.text "sraid_ainm"
+    t.datetime "seeded_at"
     t.index "to_tsvector('english'::regconfig, display_name)", name: "streets_display_name", using: :gin
     t.index ["name"], name: "index_streets_on_name"
     t.index ["postcode"], name: "index_streets_on_postcode"
+    t.index ["seeded_at"], name: "index_streets_on_seeded_at"
     t.index ["slug"], name: "index_streets_on_slug", unique: true
   end
 

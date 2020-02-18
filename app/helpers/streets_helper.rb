@@ -9,4 +9,12 @@ module StreetsHelper
       'wheelie bins and paid-for bin bags'
     end
   end
+
+  def format_days(day_ary)
+    if day_ary.uniq.size == 7
+      'any day of the week'
+    else
+      day_ary.map(&:capitalize).to_sentence
+    end
+  end
 end

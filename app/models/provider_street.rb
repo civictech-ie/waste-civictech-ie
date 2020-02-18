@@ -4,16 +4,17 @@ class ProviderStreet < ApplicationRecord
 
   validates :street, presence: true
   validates :provider, presence: true
+  validates :provider, uniqueness: {scope: :street_id}
 
   scope :overrides_collection, -> { where.not(collection_start: nil) }
   scope :overrides_presentation, -> { where.not(presentation_start: nil) }
 
   def overrides_collection?
-    self.collection_start.present?
+    self.collection_days.present? && self.collection_days.any?
   end
 
   def overrides_presentation?
-    self.presentation_start.present?
+    self.presentation_days.present? && self.presentation_days.any?
   end
   
   def calculated_presentation_days
