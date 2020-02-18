@@ -1,6 +1,6 @@
 # yourwaste-ie
 
-A rails app that powers [www.yourwaste.ie](https://www.yourwaste.ie).
+A rails app that powers [waste.civictech.ie](https://waste.civictech.ie).
 
 ## Local development
 
