@@ -1,18 +1,9 @@
 <div class="pane">
   <h3>Times</h3>
   <p>
-    <%- if street.collection_days.size == 7 %>
-      Put your rubbish out any day of the week from <%= format_time_of_day street.presentation_start %>.
-    <%- else -%>
-      Put your rubbish out <%= street.presentation_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day street.presentation_start %>.
-    <%- end %>
+    Put your rubbish out <%= format_days street.presentation_days %> from <%= format_time_of_day street.presentation_start %>.
   </p>
-
   <p>
-    <%- if street.collection_days.size == 7 %>
-      Rubbish will be collected any day of the week from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.presentation_end %>.
-    <%- else -%>
-      Rubbish will be collected <%= street.collection_days.map(&:capitalize).to_sentence %> from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.presentation_end %>.
-    <%- end %>
+    Rubbish will be collected <%= format_days street.collection_days %> from <%= format_time_of_day street.collection_start %> to <%= format_time_of_day street.presentation_end %>.
   </p>
 </div>
