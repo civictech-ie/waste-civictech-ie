@@ -87,7 +87,7 @@
   }
 
   .empty-state p {
-    display: flex;
+    white-space: nowrap;
     background: rgba(0,0,0,0.125);
     padding: 0.5rem 2rem;
     border-radius: 2rem;

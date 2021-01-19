@@ -9,7 +9,7 @@ class StreetsController < ApplicationController
   end
 
   def show
-    @street = Street.find_by(slug: params[:id])
+    @street = Street.includes(:providers).find_by(slug: params[:id])
     @query = @street.name
   end
 end
