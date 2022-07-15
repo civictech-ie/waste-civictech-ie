@@ -6,7 +6,7 @@
     "@rails/activestorage": "^6.0.0-alpha",
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.7",
-    "svelte": "^3.8.1",
+    "svelte": "^3.49.0",
     "svelte-loader": "^2.13.6"
   },
   "version": "0.1.0",
